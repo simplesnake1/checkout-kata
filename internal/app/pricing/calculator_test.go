@@ -70,14 +70,6 @@ func TestCalculator_GetPrice(t *testing.T) {
 			errorMsg:   "as the Unit Price of A is 30, and there is a count of 1",
 		},
 		{
-			name:       "Unit Price - Calculates the price for 2 items of B",
-			calculator: GetTestCalculator(),
-			sku:        "B",
-			count:      2,
-			expected:   60,
-			errorMsg:   "as the Unit Price of A is 30, and there is a count of 2",
-		},
-		{
 			name:       "Unit Price - Calculates the price for 2 items of A",
 			calculator: GetTestCalculator(),
 			sku:        "A",

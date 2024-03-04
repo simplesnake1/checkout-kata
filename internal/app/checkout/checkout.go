@@ -16,3 +16,7 @@ func NewCheckout() *Checkout {
 
 	return c
 }
+
+func (c *Checkout) Scan(item string) {
+
+}

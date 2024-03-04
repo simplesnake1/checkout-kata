@@ -25,5 +25,10 @@ func (c *checkout) Scan(item string) {
 }
 
 func (c *checkout) GetTotalPrice() int {
-	return -1
+	tp := 0
+	for sku, count := range c.basket {
+		tp += c.getPrice(sku, count)
+	}
+
+	return tp
 }

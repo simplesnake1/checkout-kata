@@ -18,5 +18,5 @@ func NewCheckout() *Checkout {
 }
 
 func (c *Checkout) Scan(item string) {
-
+	c.basket[item]++
 }

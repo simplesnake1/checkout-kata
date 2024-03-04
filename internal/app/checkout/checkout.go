@@ -6,6 +6,7 @@ type ICheckout interface {
 }
 
 type Checkout struct {
+	basket map[string]int
 }
 
 func NewCheckout() *Checkout {

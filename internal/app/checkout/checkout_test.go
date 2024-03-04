@@ -11,7 +11,7 @@ func TestCheckout_NewCheckout(t *testing.T) {
 
 	tests := []Test{
 		{
-			name: "Constructs a new checkout instance",
+			name: "Constructs a new checkout instance with a basket ready to go",
 		},
 	}
 
@@ -20,6 +20,9 @@ func TestCheckout_NewCheckout(t *testing.T) {
 			c := NewCheckout()
 			if c == nil {
 				t.Fatalf("NewCheckout should create a new Checkout struct and return a pointer to it.")
+			}
+			if c.basket == nil {
+				t.Fatalf("NewCheckout should create a new Checkout struct with a basket ready to go.")
 			}
 		})
 	}

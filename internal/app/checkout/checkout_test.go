@@ -2,8 +2,6 @@ package checkout
 
 import (
 	"testing"
-
-	"github.com/simplesnake1/checkout-kata/internal/app/pricing"
 )
 
 func TestCheckout_NewCheckout(t *testing.T) {
@@ -80,34 +78,24 @@ func TestCheckout_Scan(t *testing.T) {
 
 func TestCheckout_GetTotalPrice(t *testing.T) {
 	type Test struct {
-		name        string
-		checkout    *checkout
-		pricingList map[string]pricing.Pricing
-		expected    int
-		errorMsg    string
+		name     string
+		checkout *checkout
+		expected int
+		errorMsg string
 	}
 
 	tests := []Test{
 		{
-			name:        "GetTotalPrice returns 0 when basket does not contain any item with valid sku",
-			checkout:    &checkout{basket: map[string]int{"E": 1}},
-			pricingList: GetTestPricingList(),
-			expected:    0,
-			errorMsg:    "when basket does not contain any item with valid sku",
+			name:     "GetTotalPrice returns calculated value of price for 1 sku in basket",
+			checkout: GetTestCheckout(map[string]int{"A": 1}),
+			expected: 1,
+			errorMsg: "when calculator has returned 1 for that sku",
 		},
 		{
-			name:        "GetTotalPrice gets Unit Price of 1 item when only 1 item is in basket",
-			checkout:    &checkout{basket: map[string]int{"A": 1}},
-			pricingList: GetTestPricingList(),
-			expected:    50,
-			errorMsg:    "when these items are in the basket",
-		},
-		{
-			name:        "GetTotalPrice gets Unit Price of 1 item when only 1 item that exists in the pricing list is in basket",
-			checkout:    &checkout{basket: map[string]int{"E": 1, "A": 1}},
-			pricingList: GetTestPricingList(),
-			expected:    50,
-			errorMsg:    "when these items are in the basket and 1 does not exist in the pricing list",
+			name:     "GetTotalPrice returns combined calculated value of price for 2 skus in basket",
+			checkout: GetTestCheckout(map[string]int{"A": 1, "B": 2}),
+			expected: 5,
+			errorMsg: "when calculator has returned 5 for those skus",
 		},
 	}
 
@@ -121,11 +109,16 @@ func TestCheckout_GetTotalPrice(t *testing.T) {
 	}
 }
 
-func GetTestPricingList() map[string]pricing.Pricing {
-	return map[string]pricing.Pricing{
-		"A": {UnitPrice: 50, SpecialPrice: 130, SpecialThreshold: 3},
-		"B": {UnitPrice: 30, SpecialPrice: 45, SpecialThreshold: 2},
-		"C": {UnitPrice: 20},
-		"D": {UnitPrice: 15},
+func GetTestCalculator(sku string, count int) int {
+	if sku == "A" {
+		return 1 * count
+	} else if sku == "B" {
+		return 2 * count
+	} else {
+		return 0
 	}
+}
+
+func GetTestCheckout(b map[string]int) *checkout {
+	return &checkout{basket: b, getPrice: GetTestCalculator}
 }

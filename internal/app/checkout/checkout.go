@@ -20,3 +20,7 @@ func NewCheckout() *checkout {
 func (c *checkout) Scan(item string) {
 	c.basket[item]++
 }
+
+func (c *checkout) GetTotalPrice() int {
+	return -1
+}

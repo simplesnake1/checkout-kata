@@ -13,5 +13,11 @@ func NewCalculator(pl map[string]Pricing) *calculator {
 }
 
 func (c *calculator) GetPrice(sku string, count int) (price int) {
-	return -1
+	_, exists := c.pricingList[sku]
+
+	if exists {
+		return -1
+	}
+
+	return
 }

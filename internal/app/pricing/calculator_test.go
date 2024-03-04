@@ -38,7 +38,7 @@ func TestCalculator_GetPrice(t *testing.T) {
 
 	tests := []Test{
 		{
-			name:       "Ignores price of item when it is not in the pricing list.",
+			name:       "Error Handling - Ignores price of item when it is not in the pricing list.",
 			calculator: GetTestCalculator(),
 			sku:        "E",
 			count:      1,
@@ -46,7 +46,7 @@ func TestCalculator_GetPrice(t *testing.T) {
 			errorMsg:   "as E is not an existing SKU in the pricing list",
 		},
 		{
-			name:       "Calculates the price for 1 item of A",
+			name:       "Unit Price - Calculates the price for 1 item of A",
 			calculator: GetTestCalculator(),
 			sku:        "A",
 			count:      1,
@@ -54,7 +54,7 @@ func TestCalculator_GetPrice(t *testing.T) {
 			errorMsg:   "as the Unit Price of A is 50, and there is a count of 1",
 		},
 		{
-			name:       "Calculates the price for 2 items of A",
+			name:       "Unit Price - Calculates the price for 2 items of A",
 			calculator: GetTestCalculator(),
 			sku:        "A",
 			count:      2,
@@ -62,7 +62,7 @@ func TestCalculator_GetPrice(t *testing.T) {
 			errorMsg:   "as the Unit Price of A is 50, and there is a count of 2",
 		},
 		{
-			name:       "Calculates the price for 1 item of B",
+			name:       "Unit Price - Calculates the price for 1 item of B",
 			calculator: GetTestCalculator(),
 			sku:        "B",
 			count:      1,
@@ -70,12 +70,52 @@ func TestCalculator_GetPrice(t *testing.T) {
 			errorMsg:   "as the Unit Price of A is 30, and there is a count of 1",
 		},
 		{
-			name:       "Calculates the price for 2 items of B",
+			name:       "Unit Price - Calculates the price for 2 items of B",
 			calculator: GetTestCalculator(),
 			sku:        "B",
 			count:      2,
 			expected:   60,
 			errorMsg:   "as the Unit Price of A is 30, and there is a count of 2",
+		},
+		{
+			name:       "Unit Price - Calculates the price for 2 items of A",
+			calculator: GetTestCalculator(),
+			sku:        "A",
+			count:      2,
+			expected:   100,
+			errorMsg:   "as the Unit Price of A is 50, and there is a count of 2",
+		},
+		{
+			name:       "Special Price - Calculates the price for 3 items of A",
+			calculator: GetTestCalculator(),
+			sku:        "A",
+			count:      3,
+			expected:   130,
+			errorMsg:   "as the Special Price of A is 130, and there is a count of 3 which matches the Special Threshold",
+		},
+		{
+			name:       "Special Price - Calculates the price for 6 items of A",
+			calculator: GetTestCalculator(),
+			sku:        "A",
+			count:      6,
+			expected:   260,
+			errorMsg:   "as the Special Price of A is 130, and there is a count of 6 which matches the Special Threshold exactly twice",
+		},
+		{
+			name:       "Special Price With Remainder - Calculates the price for 7 items of A",
+			calculator: GetTestCalculator(),
+			sku:        "A",
+			count:      7,
+			expected:   310,
+			errorMsg:   "as the Unit Price of A is 50, the Special Price of A is 130, and there is a count of 7 which matches the Special Threshold twice, with 1 remainder",
+		},
+		{
+			name:       "Special Price - Calculates the price for 2 items of B",
+			calculator: GetTestCalculator(),
+			sku:        "B",
+			count:      2,
+			expected:   45,
+			errorMsg:   "as the Special Price of B is 45, and there is a count of 2 which matches the Special Threshold",
 		},
 	}
 

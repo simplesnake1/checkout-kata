@@ -2,6 +2,8 @@ package checkout
 
 import (
 	"testing"
+
+	"github.com/simplesnake1/checkout-kata/internal/app/pricing"
 )
 
 func TestCheckout_NewCheckout(t *testing.T) {
@@ -86,16 +88,52 @@ func TestCheckout_GetTotalPrice(t *testing.T) {
 
 	tests := []Test{
 		{
-			name:     "GetTotalPrice returns calculated value of price for 1 sku in basket",
+			name:     "Mocked GetPriceFunc - GetTotalPrice returns calculated value of price for 1 sku in basket",
 			checkout: GetTestCheckout(map[string]int{"A": 1}),
 			expected: 1,
 			errorMsg: "when calculator has returned 1 for that sku",
 		},
 		{
-			name:     "GetTotalPrice returns combined calculated value of price for 2 skus in basket",
+			name:     "Mocked GetPriceFunc - GetTotalPrice returns combined calculated value of price for 2 skus in basket",
 			checkout: GetTestCheckout(map[string]int{"A": 1, "B": 2}),
 			expected: 5,
 			errorMsg: "when calculator has returned 5 for those skus",
+		},
+		{
+			name:     "Calculator GetPriceFunc - GetTotalPrice returns correct value as per readme table 1 A and 2 B",
+			checkout: &checkout{basket: map[string]int{"A": 1, "B": 2}, getPrice: GetCalculatorPriceFunc()},
+			expected: 95,
+			errorMsg: "when actual calculator with pricing list from readme has been used",
+		},
+		{
+			name:     "Calculator GetPriceFunc - GetTotalPrice returns correct value as per readme table 3 A and 1 B",
+			checkout: &checkout{basket: map[string]int{"A": 3, "B": 1}, getPrice: GetCalculatorPriceFunc()},
+			expected: 160,
+			errorMsg: "when actual calculator with pricing list from readme has been used",
+		},
+		{
+			name:     "Calculator GetPriceFunc - GetTotalPrice returns correct value as per readme table 3 A and 2 B",
+			checkout: &checkout{basket: map[string]int{"A": 3, "B": 2}, getPrice: GetCalculatorPriceFunc()},
+			expected: 175,
+			errorMsg: "when actual calculator with pricing list from readme has been used",
+		},
+		{
+			name:     "Calculator GetPriceFunc - GetTotalPrice returns correct value as per readme table 3 A, 2 B, 3 C and 3 D",
+			checkout: &checkout{basket: map[string]int{"A": 3, "B": 2, "C": 3, "D": 3}, getPrice: GetCalculatorPriceFunc()},
+			expected: 280,
+			errorMsg: "when actual calculator with pricing list from readme has been used",
+		},
+		{
+			name:     "Calculator GetPriceFunc - GetTotalPrice returns correct value as per readme table 3 A, 2 B, 3 C and 3 D and 1 E which does not exist",
+			checkout: &checkout{basket: map[string]int{"A": 3, "B": 2, "C": 3, "D": 3, "E": 0}, getPrice: GetCalculatorPriceFunc()},
+			expected: 280,
+			errorMsg: "when actual calculator with pricing list from readme has been used",
+		},
+		{
+			name:     "Calculator GetPriceFunc - GetTotalPrice returns correct value as per readme table 7 A, 2 B, 3 C and 3 D and 1 E which does not exist",
+			checkout: &checkout{basket: map[string]int{"A": 7, "B": 2, "C": 3, "D": 3, "E": 0}, getPrice: GetCalculatorPriceFunc()},
+			expected: 460,
+			errorMsg: "when actual calculator with pricing list from readme has been used",
 		},
 	}
 
@@ -121,4 +159,15 @@ func GetTestCalculator(sku string, count int) int {
 
 func GetTestCheckout(b map[string]int) *checkout {
 	return &checkout{basket: b, getPrice: GetTestCalculator}
+}
+
+func GetCalculatorPriceFunc() GetPriceFunc {
+	pl := map[string]pricing.Pricing{
+		"A": {UnitPrice: 50, SpecialPrice: 130, SpecialThreshold: 3},
+		"B": {UnitPrice: 30, SpecialPrice: 45, SpecialThreshold: 2},
+		"C": {UnitPrice: 20},
+		"D": {UnitPrice: 15},
+	}
+
+	return pricing.NewCalculator(pl).GetPrice
 }

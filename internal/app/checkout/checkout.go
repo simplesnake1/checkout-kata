@@ -5,18 +5,18 @@ type ICheckout interface {
 	GetTotalPrice() int
 }
 
-type Checkout struct {
+type checkout struct {
 	basket map[string]int
 }
 
-func NewCheckout() *Checkout {
-	c := new(Checkout)
+func NewCheckout() *checkout {
+	c := new(checkout)
 
 	c.basket = make(map[string]int)
 
 	return c
 }
 
-func (c *Checkout) Scan(item string) {
+func (c *checkout) Scan(item string) {
 	c.basket[item]++
 }

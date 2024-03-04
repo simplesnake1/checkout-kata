@@ -11,4 +11,8 @@ func main() {
 	if c != nil {
 		fmt.Println("Checkout created.")
 	}
+
+	c.Scan("B")
+	c.Scan("A")
+	c.Scan("B")
 }

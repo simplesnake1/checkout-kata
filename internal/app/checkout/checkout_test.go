@@ -28,6 +28,9 @@ func TestCheckout_NewCheckout(t *testing.T) {
 			if c.basket == nil {
 				t.Fatalf("NewCheckout should create a new Checkout struct with a basket ready to go.")
 			}
+			if c.getPrice == nil {
+				t.Fatalf("NewCheckout should create a new Checkout struct that has been passed a GetPriceFunc.")
+			}
 		})
 	}
 }

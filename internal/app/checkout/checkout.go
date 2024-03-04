@@ -12,10 +12,11 @@ type checkout struct {
 	getPrice GetPriceFunc
 }
 
-func NewCheckout(GetPrice GetPriceFunc) *checkout {
+func NewCheckout(getPrice GetPriceFunc) *checkout {
 	c := new(checkout)
 
 	c.basket = make(map[string]int)
+	c.getPrice = getPrice
 
 	return c
 }

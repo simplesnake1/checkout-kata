@@ -23,6 +23,18 @@ func main() {
 	c.Scan("B")
 	c.Scan("A")
 	c.Scan("B")
+	c.Scan("A")
+	c.Scan("A")
+	c.Scan("C")
+	c.Scan("C")
+	c.Scan("C")
+	c.Scan("A")
+	c.Scan("A")
+	c.Scan("A")
+	c.Scan("A")
+	c.Scan("D")
+	c.Scan("D")
+	c.Scan("D")
 
 	fmt.Println(c.GetTotalPrice())
 }

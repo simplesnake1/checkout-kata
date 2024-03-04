@@ -11,5 +11,8 @@ type Checkout struct {
 
 func NewCheckout() *Checkout {
 	c := new(Checkout)
+
+	c.basket = make(map[string]int)
+
 	return c
 }

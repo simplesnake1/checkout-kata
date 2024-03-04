@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	c := checkout.NewCheckout()
+	c := checkout.NewCheckout(func(s string, i int) int { return -1 })
 	if c != nil {
 		fmt.Println("Checkout created.")
 	}

@@ -1,15 +1,18 @@
 package checkout
 
+type GetPriceFunc func(string, int) int
+
 type ICheckout interface {
 	Scan(item string)
 	GetTotalPrice() int
 }
 
 type checkout struct {
-	basket map[string]int
+	basket   map[string]int
+	getPrice GetPriceFunc
 }
 
-func NewCheckout() *checkout {
+func NewCheckout(GetPrice GetPriceFunc) *checkout {
 	c := new(checkout)
 
 	c.basket = make(map[string]int)

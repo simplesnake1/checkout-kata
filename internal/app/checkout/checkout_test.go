@@ -8,18 +8,20 @@ import (
 
 func TestCheckout_NewCheckout(t *testing.T) {
 	type Test struct {
-		name string
+		name         string
+		getPriceFunc GetPriceFunc
 	}
 
 	tests := []Test{
 		{
-			name: "Constructs a new checkout instance with a basket ready to go",
+			name:         "Constructs a new checkout instance with a basket ready to go",
+			getPriceFunc: func(s string, i int) int { return -1 },
 		},
 	}
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			c := NewCheckout()
+			c := NewCheckout(test.getPriceFunc)
 			if c == nil {
 				t.Fatalf("NewCheckout should create a new Checkout struct and return a pointer to it.")
 			}

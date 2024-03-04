@@ -45,6 +45,38 @@ func TestCalculator_GetPrice(t *testing.T) {
 			expected:   0,
 			errorMsg:   "as E is not an existing SKU in the pricing list",
 		},
+		{
+			name:       "Calculates the price for 1 item of A",
+			calculator: GetTestCalculator(),
+			sku:        "A",
+			count:      1,
+			expected:   50,
+			errorMsg:   "as the Unit Price of A is 50, and there is a count of 1",
+		},
+		{
+			name:       "Calculates the price for 2 items of A",
+			calculator: GetTestCalculator(),
+			sku:        "A",
+			count:      2,
+			expected:   100,
+			errorMsg:   "as the Unit Price of A is 50, and there is a count of 2",
+		},
+		{
+			name:       "Calculates the price for 1 item of B",
+			calculator: GetTestCalculator(),
+			sku:        "B",
+			count:      1,
+			expected:   30,
+			errorMsg:   "as the Unit Price of A is 30, and there is a count of 1",
+		},
+		{
+			name:       "Calculates the price for 2 items of B",
+			calculator: GetTestCalculator(),
+			sku:        "B",
+			count:      2,
+			expected:   60,
+			errorMsg:   "as the Unit Price of A is 30, and there is a count of 2",
+		},
 	}
 
 	for _, test := range tests {
